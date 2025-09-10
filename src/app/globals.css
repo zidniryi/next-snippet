@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+/* System font stack for better performance and reliability */
+:root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Ensure Monaco Editor uses proper monospace font */
+.monaco-editor {
+  font-family: var(--font-mono) !important;
+}

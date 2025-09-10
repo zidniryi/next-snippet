@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useRef, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import Editor from '@monaco-editor/react';
 import {useRouter} from 'next/navigation';
 

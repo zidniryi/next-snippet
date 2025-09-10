@@ -5,23 +5,6 @@ import SnippetEditForm from "@/components/snippet-edit-form";
 
 export default async function EditSnippetPage({params}: {params: Promise<{id: string}>}) {
 
-	async function editSnippet(formData: FormData) {
-		"use server";
-		const title = formData.get("title") as string;
-		const code = formData.get("code") as string;
-		const id = formData.get("id") as string;
-		await db.snippet.update({
-			where: {
-				id: parseInt(id),
-			},
-			data: {
-				title,
-				code,
-			},
-		});
-		redirect(`/snippets/${id}`);
-	}
-
 	async function getSnippet(id: string) {
 		"use server";
 		const snippet = await db.snippet.findUnique({
