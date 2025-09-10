@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import Editor from '@monaco-editor/react';
 import {useRouter} from 'next/navigation';
 
@@ -18,7 +18,12 @@ export default function SnippetEditForm({snippet, isEditing = false}: SnippetEdi
 	const [code, setCode] = useState(snippet?.code || '');
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [isMounted, setIsMounted] = useState(false);
 	const router = useRouter();
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -101,35 +106,44 @@ export default function SnippetEditForm({snippet, isEditing = false}: SnippetEdi
 						Code
 					</label>
 					<div className="border border-gray-300 rounded-lg overflow-hidden">
-						<Editor
-							height="400px"
-							defaultLanguage="javascript"
-							value={code}
-							onChange={handleEditorChange}
-							theme="vs-dark"
-							options={{
-								minimap: {enabled: false},
-								scrollBeyondLastLine: false,
-								fontSize: 14,
-								lineNumbers: 'on',
-								roundedSelection: false,
-								scrollbar: {
-									vertical: 'auto',
-									horizontal: 'auto',
-								},
-								automaticLayout: true,
-								tabSize: 2,
-								insertSpaces: true,
-								wordWrap: 'on',
-								folding: true,
-								lineDecorationsWidth: 10,
-								lineNumbersMinChars: 3,
-								renderLineHighlight: 'line',
-								selectOnLineNumbers: true,
-								cursorStyle: 'line',
-								cursorBlinking: 'blink',
-							}}
-						/>
+						{isMounted ? (
+							<Editor
+								height="400px"
+								defaultLanguage="javascript"
+								value={code}
+								onChange={handleEditorChange}
+								theme="vs-dark"
+								options={{
+									minimap: {enabled: false},
+									scrollBeyondLastLine: false,
+									fontSize: 14,
+									lineNumbers: 'on',
+									roundedSelection: false,
+									scrollbar: {
+										vertical: 'auto',
+										horizontal: 'auto',
+									},
+									automaticLayout: true,
+									tabSize: 2,
+									insertSpaces: true,
+									wordWrap: 'on',
+									folding: true,
+									lineDecorationsWidth: 10,
+									lineNumbersMinChars: 3,
+									renderLineHighlight: 'line',
+									selectOnLineNumbers: true,
+									cursorStyle: 'line',
+									cursorBlinking: 'blink',
+								}}
+							/>
+						) : (
+							<div className="h-[400px] flex items-center justify-center bg-gray-50">
+								<div className="text-center">
+									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+									<p className="text-sm text-gray-600">Loading editor...</p>
+								</div>
+							</div>
+						)}
 					</div>
 				</div>
 
