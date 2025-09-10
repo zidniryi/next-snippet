@@ -1,37 +1,32 @@
-import {db} from "@/db";
-import {redirect} from "next/navigation";
+import Link from "next/link";
+import SnippetEditForm from "@/components/snippet-edit-form";
 
 export default function NewSnippetPage() {
-	async function createSnippet(formData: FormData) {
-		"use server";
-		const title = formData.get("title") as string;
-		const code = formData.get("code") as string;
-
-		const snippet = await db.snippet.create({
-			data: {
-				title,
-				code,
-			},
-		});
-		console.log(snippet);
-		redirect("/");
-	}
-
 	return (
-		<form action={createSnippet}>
-			<h2 className="text-2xl font-bold">New Snippet</h2>
-			<div className="flex flex-col gap-4 mb-5">
-				<div className="flex flex-col gap-2">
-					<label className="w-12" htmlFor="title">Title</label>
-					<input className="border border-gray-300 rounded-md p-2" type="text" name="title" placeholder="Title" id="title" />
+		<div className="min-h-screen bg-gray-50 py-8">
+			<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+				{/* Header */}
+				<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+						<div>
+							<h1 className="text-3xl font-bold text-gray-900">New Snippet</h1>
+							<p className="text-gray-600 mt-1">Create a new code snippet</p>
+						</div>
+						<Link
+							href="/"
+							className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+						>
+							<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+							</svg>
+							Back to Snippets
+						</Link>
+					</div>
 				</div>
-				<div className="flex flex-col gap-2">
-					<label className="w-12" htmlFor="code">Code</label>
-					<textarea className="border border-gray-300 rounded-md p-2" name="code" placeholder="Code" id="code" />
-				</div>
-			</div>
-			<button className="bg-blue-500 max-w-xs text-white p-2 rounded-md" type="submit">Create</button>
-		</form >
 
-	)
+				{/* Form */}
+				<SnippetEditForm isEditing={false} />
+			</div>
+		</div>
+	);
 }

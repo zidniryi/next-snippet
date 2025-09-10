@@ -1,6 +1,7 @@
 import {db} from "@/db";
 import Link from "next/link";
 import {redirect} from "next/navigation";
+import SnippetEditForm from "@/components/snippet-edit-form";
 
 export default async function EditSnippetPage({params}: {params: Promise<{id: string}>}) {
 
@@ -79,56 +80,7 @@ export default async function EditSnippetPage({params}: {params: Promise<{id: st
 				</div>
 
 				{/* Form */}
-				<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-					<form action={editSnippet} className="space-y-6">
-						<input type="hidden" name="id" value={resolvedParams.id} />
-
-						{/* Title Field */}
-						<div>
-							<label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-								Title
-							</label>
-							<input
-								type="text"
-								id="title"
-								name="title"
-								placeholder="Enter snippet title..."
-								defaultValue={snippet?.title || ""}
-								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-gray-900 placeholder-gray-500"
-								required
-							/>
-						</div>
-
-						{/* Code Field */}
-						<div>
-							<label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
-								Code
-							</label>
-							<textarea
-								id="code"
-								name="code"
-								placeholder="Enter your code here..."
-								defaultValue={snippet?.code || ""}
-								rows={15}
-								className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 text-gray-900 placeholder-gray-500 font-mono text-sm resize-vertical"
-								required
-							/>
-						</div>
-
-						{/* Submit Button */}
-						<div className="flex justify-end pt-4 border-t border-gray-200">
-							<button
-								className="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-								type="submit"
-							>
-								<svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-								</svg>
-								Save Changes
-							</button>
-						</div>
-					</form>
-				</div>
+				{snippet && <SnippetEditForm snippet={snippet} isEditing={true} />}
 			</div>
 		</div>
 	);
