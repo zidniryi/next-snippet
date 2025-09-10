@@ -1,11 +1,8 @@
-import {PrismaClient} from "../generated/prisma";
+import {mockDb} from "../lib/mock-db";
 
-export const db = new PrismaClient();
+// Use mock database for demo purposes
+export const db = mockDb;
 
-
-db.snippet.create({
-	data: {
-		title: "Test",
-		code: "console.log('Hello, world!');",
-	},
-});
+// Uncomment below to use real Prisma database when you have a proper DATABASE_URL
+// import {PrismaClient} from "../generated/prisma";
+// export const db = new PrismaClient();
