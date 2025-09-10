@@ -4,6 +4,7 @@ let nextId = 1;
 
 export const mockDb = {
 	snippet: {
+
 		findMany: async (options?: {orderBy?: {id: 'desc' | 'asc'}}) => {
 			let result = [...snippets];
 			if (options?.orderBy?.id === 'desc') {
