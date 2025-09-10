@@ -2,6 +2,7 @@ import {db} from "@/db";
 import Link from "next/link";
 import {redirect} from "next/navigation";
 import SnippetEditForm from "@/components/snippet-edit-form";
+import {revalidatePath} from "next/cache";
 
 export default async function EditSnippetPage({params}: {params: Promise<{id: string}>}) {
 
@@ -19,6 +20,7 @@ export default async function EditSnippetPage({params}: {params: Promise<{id: st
 		await db.snippet.delete({
 			where: {id: parseInt(id)},
 		});
+		revalidatePath(`/`);
 		redirect("/");
 	}
 
