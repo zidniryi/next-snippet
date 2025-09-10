@@ -2,7 +2,7 @@ import {db} from "@/db";
 import Link from "next/link";
 
 // Force dynamic rendering for this page
-// export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
 
