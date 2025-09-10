@@ -17,11 +17,13 @@ export default function SnippetEditForm({snippet, isEditing = false}: SnippetEdi
 	const [title, setTitle] = useState(snippet?.title || '');
 	const [code, setCode] = useState(snippet?.code || '');
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 	const router = useRouter();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsSubmitting(true);
+		setError(null);
 
 		try {
 			const formData = new FormData();
@@ -46,12 +48,12 @@ export default function SnippetEditForm({snippet, isEditing = false}: SnippetEdi
 					router.push('/');
 				}
 			} else {
-				console.error('Failed to save snippet');
-				alert('Failed to save snippet. Please try again.');
+				const errorData = await response.json();
+				setError(errorData.error || 'Failed to save snippet. Please try again.');
 			}
 		} catch (error) {
 			console.error('Error saving snippet:', error);
-			alert('An error occurred while saving the snippet.');
+			setError('An error occurred while saving the snippet. Please check your connection and try again.');
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -63,6 +65,19 @@ export default function SnippetEditForm({snippet, isEditing = false}: SnippetEdi
 
 	return (
 		<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+			{error && (
+				<div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+					<div className="flex">
+						<svg className="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+						</svg>
+						<div>
+							<h3 className="text-sm font-medium text-red-800">Error</h3>
+							<p className="text-sm text-red-700 mt-1">{error}</p>
+						</div>
+					</div>
+				</div>
+			)}
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{/* Title Field */}
 				<div>
